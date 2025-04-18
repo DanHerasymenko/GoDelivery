@@ -1,10 +1,10 @@
 package main
 
 import (
-	"GoDelivery/shared/config"
-	"GoDelivery/shared/logger"
 	"context"
 	"fmt"
+	"github.com/DanHerasymenko/GoDelivery/shared/config"
+	"github.com/DanHerasymenko/GoDelivery/shared/logger"
 	"log/slog"
 )
 
