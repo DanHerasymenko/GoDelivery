@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/config"
+	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/server/handlers"
 	"github.com/DanHerasymenko/GoDelivery/shared/logger"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -14,8 +15,9 @@ import (
 )
 
 type Server struct {
-	router *gin.Engine
-	cfg    *config.Config
+	router   *gin.Engine
+	handlers *handlers.Handlers
+	cfg      *config.Config
 }
 
 func NewServer(cfg *config.Config) *Server {
