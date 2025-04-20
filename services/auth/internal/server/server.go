@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/config"
-	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/server/handlers"
 	"github.com/DanHerasymenko/GoDelivery/shared/logger"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -15,23 +14,22 @@ import (
 )
 
 type Server struct {
-	router   *gin.Engine
-	handlers *handlers.Handlers
-	cfg      *config.Config
+	Router *gin.Engine
+	cfg    *config.Config
 }
 
 func NewServer(cfg *config.Config) *Server {
 	return &Server{
-		cfg: cfg,
+		cfg:    cfg,
+		Router: gin.New(),
 	}
 }
 
 func (s *Server) Run(ctx context.Context) {
-	s.router = gin.New()
 
 	server := &http.Server{
 		Addr:    s.cfg.AuthHostPort,
-		Handler: s.router,
+		Handler: s.Router,
 	}
 
 	go func() {
