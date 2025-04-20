@@ -7,7 +7,7 @@ import (
 
 type Config struct {
 	Env          string `env:"APP_ENV" envDefault:"local"`
-	AuthSrvcPort string `env:"AUTH_SERVICE_PORT" envDefault:":8080"`
+	AuthHostPort string `env:"AUTH_HOST_PORT" envDefault:"localhost:8082"`
 }
 
 func NewConfigFromEnv() (*Config, error) {
