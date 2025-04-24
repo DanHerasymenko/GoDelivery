@@ -26,7 +26,7 @@ type HealthzRespBody struct {
 // @Tags Healthz
 // @Accept json
 // @Produce json
-// @Success 200 {string} string "ok"
+// @Success      200  {object}  HealthzRespBody
 // @Failure 500 {string} string "internal server error"
 // @Router /api/healthz [get]
 func (h *Handler) HealthzCheck(ctx *gin.Context) {

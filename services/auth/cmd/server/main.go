@@ -7,6 +7,7 @@ package main
 import (
 	"context"
 	"fmt"
+	_ "github.com/DanHerasymenko/GoDelivery/services/auth-service/cmd/server/docs"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/config"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/server"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/server/handlers"
@@ -33,6 +34,8 @@ func main() {
 	// Create handlers
 	hdlrs := handlers.NewHandlers(cfg, mdlwrs)
 	hdlrs.RegisterRoutes(srvr.Router)
+
+	logger.Info(ctx, cfg.AuthHostPort)
 
 	// Run server
 	srvr.Run(ctx)

@@ -1,7 +1,37 @@
+definitions:
+  healthz.HealthzRespBody:
+    properties:
+      env:
+        type: string
+      status:
+        type: string
+    required:
+    - env
+    - status
+    type: object
 info:
   contact: {}
   description: This is a sample server for GoDelivery Auth Service.
   title: GoDelivery Auth Service
   version: "1.0"
-paths: {}
+paths:
+  /api/healthz:
+    get:
+      consumes:
+      - application/json
+      description: Healthz check
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/healthz.HealthzRespBody'
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Healthz check
+      tags:
+      - Healthz
 swagger: "2.0"

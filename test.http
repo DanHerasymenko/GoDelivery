@@ -1,3 +1,5 @@
 ### GET request with a header
-GET http://localhost:8082/api/healthz
+GET http://localhost:8081/api/healthz
 Accept: application/json
+
+##  swag init -g .\cmd\server\main.go -o .\cmd\server\docs\
