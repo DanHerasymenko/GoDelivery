@@ -1,0 +1,10 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample server for GoDelivery Auth Service.",
+        "title": "GoDelivery Auth Service",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {}
+}

@@ -1,3 +1,7 @@
+// @title           GoDelivery Auth Service
+// @version         1.0
+// @description     This is a sample server for GoDelivery Auth Service.
+
 package main
 
 import (

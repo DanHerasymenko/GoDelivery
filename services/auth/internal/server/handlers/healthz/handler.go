@@ -17,10 +17,21 @@ func NewHandler(cfg *config.Config) *Handler {
 
 type HealthzRespBody struct {
 	Status string `json:"status" validate:"required"`
+	Env    string `json:"env" validate:"required"`
 }
 
+// HealthzCheck godoc
+// @Summary Healthz check
+// @Description Healthz check
+// @Tags Healthz
+// @Accept json
+// @Produce json
+// @Success 200 {string} string "ok"
+// @Failure 500 {string} string "internal server error"
+// @Router /api/healthz [get]
 func (h *Handler) HealthzCheck(ctx *gin.Context) {
 	ctx.JSON(200, HealthzRespBody{
 		Status: "ok",
+		Env:    h.cfg.Env,
 	})
 }
