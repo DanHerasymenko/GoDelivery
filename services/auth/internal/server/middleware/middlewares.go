@@ -10,7 +10,7 @@ type Middlewares struct {
 	Log *logging.Middleware
 }
 
-func NewMiddleware(cfg *config.Config) *Middlewares {
+func NewMiddlewares(cfg *config.Config) *Middlewares {
 	return &Middlewares{
 		Log: logging.NewMiddleware(cfg),
 	}
