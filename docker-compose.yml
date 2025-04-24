@@ -7,8 +7,8 @@ services:
     container_name: auth_service
 
     volumes:
-      - ./services/auth/cmd:/work/cmd
-      - ./services/auth/internal:/work/internal
+      - ./services/auth/cmd:/app/cmd
+      - ./services/auth/internal:/app/internal
     ports:
       - "8081:8081"
     env_file: ./services/auth/.env
