@@ -6,6 +6,7 @@ require (
 	github.com/DanHerasymenko/GoDelivery/shared v0.0.0-00010101000000-000000000000
 	github.com/caarlos0/env/v11 v11.3.1
 	github.com/gin-gonic/gin v1.10.0
+	github.com/oklog/ulid/v2 v2.1.0
 )
 
 require (

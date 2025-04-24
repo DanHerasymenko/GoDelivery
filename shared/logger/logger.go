@@ -14,10 +14,10 @@ func getArgs(args []slog.Attr) []any {
 	return res
 }
 
-type CtxValueKey struct{}
+type сtxValueKey struct{}
 
 func getAttrs(ctx context.Context) []slog.Attr {
-	av := ctx.Value(CtxValueKey{})
+	av := ctx.Value(сtxValueKey{})
 	if av == nil {
 		return nil
 	}
@@ -31,7 +31,7 @@ func mergeAttrs(ctx context.Context, attrs []slog.Attr) []slog.Attr {
 
 func WithAttr(ctx context.Context, attrs ...slog.Attr) context.Context {
 	merged := mergeAttrs(ctx, attrs)
-	return context.WithValue(ctx, CtxValueKey{}, merged)
+	return context.WithValue(ctx, сtxValueKey{}, merged)
 }
 
 // Init initializes the logger before main
