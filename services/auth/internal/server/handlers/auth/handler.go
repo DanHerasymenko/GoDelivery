@@ -30,7 +30,7 @@ type SignUpReqBody struct {
 // @Router /api/auth/singup [post]
 func (h *Handler) SingUp(ctx *gin.Context) {
 
-
+	validator.
 
 	ctx.JSON(200, "SingUp success")
 }

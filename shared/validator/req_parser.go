@@ -7,9 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// доволі масивна штука - там багато оптимізацій, кешування і т.д.
-// правильно не створювати на кожен чих новий валідатор
-
 var v = validator.New()
 
 var seasonRegex = regexp.MustCompile(`^(Winter|Spring|Summer|Autumn)[0-9]{4}$`)
