@@ -3,7 +3,8 @@ package auth
 import (
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/config"
 	"github.com/gin-gonic/gin"
-	"github.com/DanHerasymenko/GoDelivery/shared/validator"
+	"net/http"
+	su "github.com/DanHerasymenko/GoDelivery/shared/validator"
 )
 
 type Handler struct {
@@ -30,7 +31,13 @@ type SignUpReqBody struct {
 // @Router /api/auth/singup [post]
 func (h *Handler) SingUp(ctx *gin.Context) {
 
-	validator.
+	reqBody := SignUpReqBody{}
 
-	ctx.JSON(200, "SingUp success")
+	// :TODO - check GIN errors and what to return - need to log by slog??
+	if err := su.ParseReqBody(ctx, reqBody); err != nil {
+		ctx.AbortWithStatus(http.StatusBadRequest)
+		return err
+	}
+
+	ctx.JSON(200, reqBody)
 }
