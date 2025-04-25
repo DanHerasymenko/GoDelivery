@@ -1,4 +1,4 @@
-package req_parser
+package validator
 
 import (
 	"fmt"

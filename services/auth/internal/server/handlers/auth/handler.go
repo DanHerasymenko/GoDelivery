@@ -3,6 +3,7 @@ package auth
 import (
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/config"
 	"github.com/gin-gonic/gin"
+	"github.com/DanHerasymenko/GoDelivery/shared/validator"
 )
 
 type Handler struct {
@@ -29,7 +30,7 @@ type SignUpReqBody struct {
 // @Router /api/auth/singup [post]
 func (h *Handler) SingUp(ctx *gin.Context) {
 
-	
+
 
 	ctx.JSON(200, "SingUp success")
 }
