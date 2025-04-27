@@ -3,7 +3,7 @@ module github.com/DanHerasymenko/GoDelivery/services/auth-service
 go 1.24.0
 
 require (
-	github.com/DanHerasymenko/GoDelivery/shared v0.0.0-20250424130556-ac0ceede6fcc
+	github.com/DanHerasymenko/GoDelivery/shared v0.0.0-20250425212055-5af6f105221f
 	github.com/caarlos0/env/v11 v11.3.1
 	github.com/gin-gonic/gin v1.10.0
 	github.com/oklog/ulid/v2 v2.1.0

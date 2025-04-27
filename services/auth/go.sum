@@ -1,5 +1,5 @@
-github.com/DanHerasymenko/GoDelivery/shared v0.0.0-20250424130556-ac0ceede6fcc h1:GLwzukb+vQySd/mUN8Bwg5RfsZdDC06Nz3dE3bagLpg=
-github.com/DanHerasymenko/GoDelivery/shared v0.0.0-20250424130556-ac0ceede6fcc/go.mod h1:aJaghAkvqYTiUeApJ1yz2X8lKbeazfD27Y1GUDlSZSE=
+github.com/DanHerasymenko/GoDelivery/shared v0.0.0-20250425212055-5af6f105221f h1:yd5wGFqQW7e1oUVx4eehN/lKjjhByQBcNZVay5rAwsw=
+github.com/DanHerasymenko/GoDelivery/shared v0.0.0-20250425212055-5af6f105221f/go.mod h1:eWLMNzcsCTZtRRW0d9Z4BzeIylChHVULNQaJHkMuzII=
 github.com/KyleBanks/depth v1.2.1 h1:5h8fQADFrWtarTdtDudMmGsC7GPbOAu6RVB3ffsVFHc=
 github.com/KyleBanks/depth v1.2.1/go.mod h1:jzSb9d0L43HxTQfT+oSA1EEp2q+ne2uh6XgeJcm8brE=
 github.com/bytedance/sonic v1.13.2 h1:8/H1FempDZqC4VqjptGo14QQlJx8VdZJegxs6wwfqpQ=
