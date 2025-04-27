@@ -1,10 +1,10 @@
 package auth
 
 import (
-	"fmt"
+	_ "fmt"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/config"
-	ru "github.com/DanHerasymenko/GoDelivery/shared/utils/response"
-	su "github.com/DanHerasymenko/GoDelivery/shared/validator"
+	"github.com/DanHerasymenko/GoDelivery/shared/utils/response"
+	"github.com/DanHerasymenko/GoDelivery/shared/utils/validator"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -30,18 +30,18 @@ type SignUpReqBody struct {
 // @Param body body SignUpReqBody true "SingUp request body"
 // @Success 200 {string} string "SingUp success"
 // @Failure 409 {string} string "user already exists"
-// @Router /api/auth/singup [post]
+// @Router /api/auth/signup [post]
 func (h *Handler) SingUp(ctx *gin.Context) {
 
 	reqBody := SignUpReqBody{}
 
-	// :TODO - check GIN errors and what to return - need to log by slog??
-	if err := su.ParseReqBody(ctx, &reqBody); err != nil {
-
-		ru.AbortWithError(ctx, http.StatusBadRequest, fmt.Errorf()
-			ctx.AbortWithStatus(http.StatusBadRequest)
-		return err
+	if err := validator.ParseReqBody(ctx, &reqBody); err != nil {
+		//response.AbortWithError(ctx, http.StatusBadRequest, err)
+		response.AbortWithErrorJSON(ctx, http.StatusBadRequest, err, "Email or password is invalid")
+		return
 	}
 
-	ctx.JSON(200, reqBody)
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "SingUp success",
+	})
 }

@@ -1,4 +1,16 @@
 definitions:
+  auth.SignUpReqBody:
+    properties:
+      email:
+        type: string
+      password:
+        maxLength: 32
+        minLength: 12
+        type: string
+    required:
+    - email
+    - password
+    type: object
   healthz.HealthzRespBody:
     properties:
       env:
@@ -15,6 +27,28 @@ info:
   title: GoDelivery Auth Service
   version: "1.0"
 paths:
+  /api/auth/signup:
+    post:
+      description: SingUp
+      parameters:
+      - description: SingUp request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/auth.SignUpReqBody'
+      responses:
+        "200":
+          description: SingUp success
+          schema:
+            type: string
+        "409":
+          description: user already exists
+          schema:
+            type: string
+      summary: SingUp
+      tags:
+      - Auth
   /api/healthz:
     get:
       consumes:

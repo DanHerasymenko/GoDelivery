@@ -15,6 +15,40 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/auth/signup": {
+            "post": {
+                "description": "SingUp",
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "SingUp",
+                "parameters": [
+                    {
+                        "description": "SingUp request body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/auth.SignUpReqBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "SingUp success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "user already exists",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/healthz": {
             "get": {
                 "description": "Healthz check",
@@ -46,6 +80,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "auth.SignUpReqBody": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 12
+                }
+            }
+        },
         "healthz.HealthzRespBody": {
             "type": "object",
             "required": [
