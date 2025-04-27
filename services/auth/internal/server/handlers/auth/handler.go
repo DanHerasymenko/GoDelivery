@@ -36,7 +36,6 @@ func (h *Handler) SingUp(ctx *gin.Context) {
 	reqBody := SignUpReqBody{}
 
 	if err := validator.ParseReqBody(ctx, &reqBody); err != nil {
-		//response.AbortWithError(ctx, http.StatusBadRequest, err)
 		response.AbortWithErrorJSON(ctx, http.StatusBadRequest, err, "Email or password is invalid")
 		return
 	}

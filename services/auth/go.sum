@@ -1,7 +1,5 @@
-github.com/DanHerasymenko/GoDelivery/shared v0.0.0-20250425212055-5af6f105221f h1:yd5wGFqQW7e1oUVx4eehN/lKjjhByQBcNZVay5rAwsw=
-github.com/DanHerasymenko/GoDelivery/shared v0.0.0-20250425212055-5af6f105221f/go.mod h1:eWLMNzcsCTZtRRW0d9Z4BzeIylChHVULNQaJHkMuzII=
-github.com/DanHerasymenko/GoDelivery/shared v0.0.0-20250427173302-838060e83fd2 h1:FfD95QHpSspJK7Ci2cKkBagHI/anqZ4YgIl1wUto78Y=
-github.com/DanHerasymenko/GoDelivery/shared v0.0.0-20250427173302-838060e83fd2/go.mod h1:eWLMNzcsCTZtRRW0d9Z4BzeIylChHVULNQaJHkMuzII=
+github.com/DanHerasymenko/GoDelivery/shared v0.0.0-20250427185603-a64e3f783d3e h1:Xu8/rsJUpFVi1MeY2WBUkpyyNsRc82dG0EhLdsw11Tw=
+github.com/DanHerasymenko/GoDelivery/shared v0.0.0-20250427185603-a64e3f783d3e/go.mod h1:eWLMNzcsCTZtRRW0d9Z4BzeIylChHVULNQaJHkMuzII=
 github.com/KyleBanks/depth v1.2.1 h1:5h8fQADFrWtarTdtDudMmGsC7GPbOAu6RVB3ffsVFHc=
 github.com/KyleBanks/depth v1.2.1/go.mod h1:jzSb9d0L43HxTQfT+oSA1EEp2q+ne2uh6XgeJcm8brE=
 github.com/bytedance/sonic v1.13.2 h1:8/H1FempDZqC4VqjptGo14QQlJx8VdZJegxs6wwfqpQ=
