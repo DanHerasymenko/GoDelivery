@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"fmt"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/config"
 	ru "github.com/DanHerasymenko/GoDelivery/shared/utils/response"
 	su "github.com/DanHerasymenko/GoDelivery/shared/validator"
@@ -37,7 +38,7 @@ func (h *Handler) SingUp(ctx *gin.Context) {
 	// :TODO - check GIN errors and what to return - need to log by slog??
 	if err := su.ParseReqBody(ctx, &reqBody); err != nil {
 
-		ru.
+		ru.AbortWithError(ctx, http.StatusBadRequest, fmt.Errorf()
 			ctx.AbortWithStatus(http.StatusBadRequest)
 		return err
 	}
