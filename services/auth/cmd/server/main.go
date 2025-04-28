@@ -8,6 +8,7 @@ import (
 	"context"
 	"fmt"
 	_ "github.com/DanHerasymenko/GoDelivery/services/auth-service/cmd/server/docs"
+	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/clients"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/config"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/server"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/server/handlers"
@@ -26,11 +27,12 @@ func main() {
 	logger.Info(ctx, "Config loaded")
 
 	// Create clients
-	clnts, err := config.NewClients(ctx, cfg)
+	clnts, err := clients.NewClients(ctx, cfg)
 	if err != nil {
 		logger.Fatal(ctx, fmt.Errorf("failed to create clients: %w", err))
 	}
 
+	fmt.Println(clnts)
 	// Create server
 	srvr := server.NewServer(cfg)
 

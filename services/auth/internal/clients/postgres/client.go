@@ -7,6 +7,7 @@ import (
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/config"
 	"github.com/DanHerasymenko/GoDelivery/shared/logger"
 	"github.com/jackc/pgx/v5/pgxpool"
+	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/pressly/goose/v3"
 )
 
@@ -19,8 +20,8 @@ func NewPostgresClient(ctx context.Context, cfg *config.Config) (*Client, error)
 		"postgres://%s:%s@%s:%d/%s?sslmode=disable",
 		cfg.AuthPostgresUser,
 		cfg.AuthPostgresPassword,
-		cfg.PostgresHost,
-		cfg.PostgresPort,
+		cfg.PostgresContainerHost,
+		cfg.PostgresContainerPort,
 		cfg.AuthPostgresDB,
 	)
 
@@ -54,7 +55,7 @@ func NewPostgresClient(ctx context.Context, cfg *config.Config) (*Client, error)
 	return &Client{Postgres: pool}, nil
 }
 
-func runMigrations(сtx context.Context, dsn string) error {
+func runMigrations(ctx context.Context, dsn string) error {
 
 	db, err := sql.Open("pgx", dsn)
 	if err != nil {
@@ -62,7 +63,7 @@ func runMigrations(сtx context.Context, dsn string) error {
 	}
 	defer func() {
 		if cl := db.Close(); cl != nil {
-			logger.Info(сtx, fmt.Sprintf("failed to close migration db connection: %v", cl))
+			logger.Info(ctx, fmt.Sprintf("failed to close migration db connection: %v", cl))
 		}
 	}()
 

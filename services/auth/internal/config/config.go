@@ -6,14 +6,14 @@ import (
 )
 
 type Config struct {
-	AuthEnv              string `env:"AUTH_APP_ENV"   envDefault:"local"`
-	AuthHostPort         string `env:"AUTH_HOST_PORT" envDefault:":8080"`
-	PostgresHost         string `env:"POSTGRES_HOST"`
-	PostgresPort         int    `env:"POSTGRES_PORT"`
-	AuthPostgresUser     string `env:"AUTH_POSTGRES_USER"`
-	AuthPostgresPassword string `env:"AUTH_POSTGRES_PASSWORD"`
-	AuthPostgresDB       string `env:"AUTH_POSTGRES_DB"`
-	RunMigrations        bool   `env:"RUN_MIGRATIONS" envDefault:"false"`
+	AuthEnv               string `env:"AUTH_APP_ENV"   envDefault:"local"`
+	AuthHostPort          string `env:"AUTH_HOST_PORT" envDefault:":8080"`
+	PostgresContainerHost string `env:"POSTGRES_CONTAINER_HOST"`
+	PostgresContainerPort int    `env:"POSTGRES_CONTAINER_PORT"`
+	AuthPostgresUser      string `env:"AUTH_POSTGRES_USER"`
+	AuthPostgresPassword  string `env:"AUTH_POSTGRES_PASSWORD"`
+	AuthPostgresDB        string `env:"AUTH_POSTGRES_DB"`
+	RunMigrations         bool   `env:"RUN_MIGRATIONS" envDefault:"false"`
 }
 
 func NewConfigFromEnv() (*Config, error) {

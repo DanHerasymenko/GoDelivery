@@ -10,6 +10,7 @@ CMD ["go", "run", "./cmd/server/main.go"]
 FROM base as build
 COPY services/auth/cmd ./cmd
 COPY services/auth/internal ./internal
+COPY services/auth/migrations ./migrations
 RUN apk add --no-cache swag
 RUN swag init -g cmd/server/main.go -o cmd/server/docs
 RUN mkdir -p /build

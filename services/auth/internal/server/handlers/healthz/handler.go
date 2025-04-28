@@ -32,6 +32,6 @@ type HealthzRespBody struct {
 func (h *Handler) HealthzCheck(ctx *gin.Context) {
 	ctx.JSON(200, HealthzRespBody{
 		Status: "ok",
-		Env:    h.cfg.Env,
+		Env:    h.cfg.AuthEnv,
 	})
 }
