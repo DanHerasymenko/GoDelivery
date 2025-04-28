@@ -1,14 +1,34 @@
 services:
+  postgres:
+    image: postgres:17.4
+    container_name: postgres_container
+    restart: no
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - ${POSTGRES_PORT}:5432
+    #volumes:
+    #  - ./services/auth/db/pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U monitoring_user -d monitoring_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    tty: true
+    stdin_open: true
+
   auth_service:
     build:
       context: .
       target: dev
       dockerfile: ./services/auth/Dockerfile
     container_name: auth_service
-
     volumes:
       - ./services/auth/cmd:/app/cmd
       - ./services/auth/internal:/app/internal
     ports:
       - "8081:8081"
     env_file: ./services/auth/.env
+

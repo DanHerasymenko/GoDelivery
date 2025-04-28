@@ -25,6 +25,12 @@ func main() {
 	}
 	logger.Info(ctx, "Config loaded")
 
+	// Create clients
+	clnts, err := config.NewClients(ctx, cfg)
+	if err != nil {
+		logger.Fatal(ctx, fmt.Errorf("failed to create clients: %w", err))
+	}
+
 	// Create server
 	srvr := server.NewServer(cfg)
 
