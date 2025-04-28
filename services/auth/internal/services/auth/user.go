@@ -4,14 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/constants"
 	"github.com/jackc/pgx/v5/pgconn"
 	"time"
-)
-
-// business error -> to frontend
-var (
-	ErrUserAlreadyExists = fmt.Errorf("user with nickname %s already exists")
-	ErrUserNotFound      = fmt.Errorf("user not found")
 )
 
 type User struct {
@@ -42,7 +37,7 @@ func (s *Service) CreateUser(ctx context.Context, email, passwordHash string) (*
 
 	err := s.clnts.PostgresClnt.Postgres.QueryRow(ctx, query, email, passwordHash, now).Scan(&id)
 	if errors.As(err, &pgErr) && pgErr.Code == "23505" {
-		return nil, ErrUserAlreadyExists
+		return nil, constants.ErrUserAlreadyExists
 	} else if err != nil {
 		return nil, fmt.Errorf("failed to insert user: %w", err)
 	}

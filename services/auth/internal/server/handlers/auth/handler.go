@@ -3,6 +3,7 @@ package auth
 import (
 	_ "fmt"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/config"
+	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/services"
 	"github.com/DanHerasymenko/GoDelivery/shared/utils/response"
 	"github.com/DanHerasymenko/GoDelivery/shared/utils/validator"
 	"github.com/gin-gonic/gin"
@@ -10,12 +11,14 @@ import (
 )
 
 type Handler struct {
-	cfg *config.Config
+	cfg      *config.Config
+	services *services.Services
 }
 
-func NewHandler(cfg *config.Config) *Handler {
+func NewHandler(cfg *config.Config, services *services.Services) *Handler {
 	return &Handler{
-		cfg: cfg,
+		cfg:      cfg,
+		services: services,
 	}
 }
 
@@ -40,7 +43,17 @@ func (h *Handler) SingUp(ctx *gin.Context) {
 		return
 	}
 
+	user, err := h.services.Auth.CreateUser(ctx, reqBody.Email, reqBody.Password)
+	if err != nil {
+		response.AbortWithErrorJSON(ctx, http.StatusConflict, err, err.Error())
+		return
+	}
+
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "SingUp success",
+		"user":    user,
 	})
+	//ctx.JSON(http.StatusOK, gin.H{
+	//	"message": "SingUp success",
+	//})
 }

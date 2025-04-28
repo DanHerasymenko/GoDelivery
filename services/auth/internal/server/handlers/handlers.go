@@ -22,7 +22,7 @@ type Handlers struct {
 func NewHandlers(cfg *config.Config, srvc *services.Services, mdlwrs *middleware.Middlewares) *Handlers {
 	return &Handlers{
 		Healthz: healthz.NewHandler(cfg),
-		Auth:    ah.NewHandler(cfg),
+		Auth:    ah.NewHandler(cfg, srvc),
 
 		mdlwrs: mdlwrs,
 	}
