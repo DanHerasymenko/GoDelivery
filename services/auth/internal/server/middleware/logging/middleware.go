@@ -31,7 +31,7 @@ func (m *Middleware) Handle(ctx *gin.Context) {
 	ctx.Next()
 	duration := time.Since(startedAt)
 
-	logger.GinSetLoggerAttr(ctx, slog.Int64("duration", duration.Milliseconds()))
+	logger.GinSetLoggerAttr(ctx, slog.Int64("duration_ms", duration.Milliseconds()))
 
 	if len(ctx.Errors) > 0 {
 		for _, err := range ctx.Errors {

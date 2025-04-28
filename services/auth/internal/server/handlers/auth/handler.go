@@ -1,8 +1,10 @@
 package auth
 
 import (
+	"errors"
 	_ "fmt"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/config"
+	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/constants"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/services"
 	"github.com/DanHerasymenko/GoDelivery/shared/utils/response"
 	"github.com/DanHerasymenko/GoDelivery/shared/utils/validator"
@@ -44,8 +46,11 @@ func (h *Handler) SingUp(ctx *gin.Context) {
 	}
 
 	user, err := h.services.Auth.CreateUser(ctx, reqBody.Email, reqBody.Password)
-	if err != nil {
+	if errors.Is(err, constants.ErrUserAlreadyExists) || errors.Is(err, constants.ErrUserNotFound) {
 		response.AbortWithErrorJSON(ctx, http.StatusConflict, err, err.Error())
+		return
+	} else if err != nil {
+		response.AbortWithError(ctx, http.StatusInternalServerError, err)
 		return
 	}
 

@@ -14,12 +14,12 @@ type User struct {
 	Email        string `json:"email"`
 	PasswordHash string `json:"password_hash"`
 	//	Role         string    `json:"role" bson:"role"`
-	CreatedAt time.Time `json:"created_at"`
+	CreatedAt int64 `json:"created_at"`
 }
 
 func (s *Service) CreateUser(ctx context.Context, email, passwordHash string) (*User, error) {
 
-	now := time.Now()
+	now := time.Now().Unix()
 	var id int
 	var pgErr *pgconn.PgError
 
