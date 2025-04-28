@@ -6,6 +6,7 @@ import (
 	ah "github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/server/handlers/auth"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/server/handlers/healthz"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/server/middleware"
+	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/services"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -18,7 +19,7 @@ type Handlers struct {
 	mdlwrs *middleware.Middlewares
 }
 
-func NewHandlers(cfg *config.Config, mdlwrs *middleware.Middlewares) *Handlers {
+func NewHandlers(cfg *config.Config, srvc *services.Services, mdlwrs *middleware.Middlewares) *Handlers {
 	return &Handlers{
 		Healthz: healthz.NewHandler(cfg),
 		Auth:    ah.NewHandler(cfg),
