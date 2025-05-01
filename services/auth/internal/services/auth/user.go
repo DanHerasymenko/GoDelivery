@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/constants"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"time"
 )
@@ -45,4 +46,21 @@ func (s *Service) CreateUser(ctx context.Context, email, passwordHash string) (*
 	user.Id = id
 
 	return user, nil
+}
+
+func (s *Service) GetUserByEmail(ctx context.Context, email string) (*User, error) {
+
+	query := `
+		SELECT id, email, password_hash, created_at
+		FROM users
+		WHERE email = $1
+	`
+	user := &User{}
+
+	err := s.clnts.PostgresClnt.Postgres.QueryRow(ctx, query, email).Scan(&user.Id, &user.Email, &user.PasswordHash, &user.CreatedAt)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return nil, constants.ErrUserNotFound
+	}
+
+	return user, err
 }

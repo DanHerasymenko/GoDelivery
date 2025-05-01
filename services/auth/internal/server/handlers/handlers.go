@@ -44,4 +44,5 @@ func (h *Handlers) RegisterRoutes(router *gin.Engine) {
 	// Auth group
 	auth := api.Group("/auth")
 	auth.POST("/signup", h.Auth.SingUp)
+	auth.POST("/signin", h.Auth.SignIn)
 }

@@ -15,6 +15,40 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/auth/signin": {
+            "post": {
+                "description": "SignIn",
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "SignIn",
+                "parameters": [
+                    {
+                        "description": "SignIn request body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/auth.SignInReqBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "SignIn success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "invalid credentials",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/auth/signup": {
             "post": {
                 "description": "SingUp",
@@ -80,6 +114,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "auth.SignInReqBody": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 12
+                }
+            }
+        },
         "auth.SignUpReqBody": {
             "type": "object",
             "required": [

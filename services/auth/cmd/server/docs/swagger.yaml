@@ -1,4 +1,16 @@
 definitions:
+  auth.SignInReqBody:
+    properties:
+      email:
+        type: string
+      password:
+        maxLength: 32
+        minLength: 12
+        type: string
+    required:
+    - email
+    - password
+    type: object
   auth.SignUpReqBody:
     properties:
       email:
@@ -27,6 +39,28 @@ info:
   title: GoDelivery Auth Service
   version: "1.0"
 paths:
+  /api/auth/signin:
+    post:
+      description: SignIn
+      parameters:
+      - description: SignIn request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/auth.SignInReqBody'
+      responses:
+        "200":
+          description: SignIn success
+          schema:
+            type: string
+        "401":
+          description: invalid credentials
+          schema:
+            type: string
+      summary: SignIn
+      tags:
+      - Auth
   /api/auth/signup:
     post:
       description: SingUp
