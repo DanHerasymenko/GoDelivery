@@ -7,9 +7,11 @@ import (
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/config"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/constants"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/services"
+	"github.com/DanHerasymenko/GoDelivery/shared/logger"
 	"github.com/DanHerasymenko/GoDelivery/shared/utils/response"
 	"github.com/DanHerasymenko/GoDelivery/shared/utils/validator"
 	"github.com/gin-gonic/gin"
+	"log/slog"
 	"net/http"
 )
 
@@ -52,8 +54,8 @@ func (h *Handler) SingUp(ctx *gin.Context) {
 		return
 	}
 
-	user, err := h.services.Auth.CreateUser(ctx, reqBody.Email, passHash)
-	if errors.Is(err, constants.ErrUserAlreadyExists) || errors.Is(err, constants.ErrUserNotFound) {
+	_, err = h.services.Auth.CreateUser(ctx, reqBody.Email, passHash)
+	if errors.Is(err, constants.ErrUserAlreadyExists) {
 		response.AbortWithErrorJSON(ctx, http.StatusConflict, err, err.Error())
 		return
 	} else if err != nil {
@@ -63,11 +65,7 @@ func (h *Handler) SingUp(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "SingUp success",
-		"user":    user,
 	})
-	//ctx.JSON(http.StatusOK, gin.H{
-	//	"message": "SingUp success",
-	//})
 }
 
 type SignInReqBody struct {
@@ -75,11 +73,16 @@ type SignInReqBody struct {
 	Password string `json:"password" validate:"required,min=12,max=32"`
 }
 
+type SignInResp200Body struct {
+	AccessToken  *string `json:"access_token"`
+	RefreshToken *string `json:"refresh_token"`
+}
+
 // @Summary SignIn
 // @Description SignIn
 // @Tags Auth
 // @Param body body SignInReqBody true "SignIn request body"
-// @Success 200 {string} string "SignIn success"
+// @Success 200 {object} SignInResp200Body "SingIn success"
 // @Failure 401 {string} string "invalid credentials"
 // @Router /api/auth/signin [post]
 func (h *Handler) SignIn(ctx *gin.Context) {
@@ -107,8 +110,22 @@ func (h *Handler) SignIn(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"message": "SignIn success",
-		"user":    user,
+	logger.GinSetLoggerAttr(ctx, slog.Int("userID", user.Id))
+
+	accessToken, err := h.services.Auth.CreateAccessAuthToken(ctx.Request.Context(), user.Id)
+	if err != nil {
+		response.AbortWithError(ctx, http.StatusInternalServerError, err)
+		return
+	}
+
+	refreshToken, err := h.services.Auth.CreateRefreshAuthToken(ctx.Request.Context(), user.Id)
+	if err != nil {
+		response.AbortWithError(ctx, http.StatusInternalServerError, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, SignInResp200Body{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
 	})
 }

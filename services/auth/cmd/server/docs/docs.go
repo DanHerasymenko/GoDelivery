@@ -35,9 +35,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "SignIn success",
+                        "description": "SingIn success",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/auth.SignInResp200Body"
                         }
                     },
                     "401": {
@@ -128,6 +128,17 @@ const docTemplate = `{
                     "type": "string",
                     "maxLength": 32,
                     "minLength": 12
+                }
+            }
+        },
+        "auth.SignInResp200Body": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "refresh_token": {
+                    "type": "string"
                 }
             }
         },

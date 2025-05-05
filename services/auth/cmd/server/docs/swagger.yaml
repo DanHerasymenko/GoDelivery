@@ -11,6 +11,13 @@ definitions:
     - email
     - password
     type: object
+  auth.SignInResp200Body:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
   auth.SignUpReqBody:
     properties:
       email:
@@ -51,9 +58,9 @@ paths:
           $ref: '#/definitions/auth.SignInReqBody'
       responses:
         "200":
-          description: SignIn success
+          description: SingIn success
           schema:
-            type: string
+            $ref: '#/definitions/auth.SignInResp200Body'
         "401":
           description: invalid credentials
           schema:

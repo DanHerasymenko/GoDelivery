@@ -16,6 +16,8 @@ func NewRedisClient(ctx context.Context, cfg *config.Config) (*Client, error) {
 
 	redisURL := fmt.Sprintf("redis://:%s@%s/%d", cfg.RedisPassword, cfg.RedisAddr, cfg.RedisDB)
 
+	fmt.Println(redisURL)
+
 	opt, err := redis.ParseURL(redisURL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse Redis URL: %w", err)
