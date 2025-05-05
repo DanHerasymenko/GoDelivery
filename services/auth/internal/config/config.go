@@ -17,6 +17,10 @@ type Config struct {
 	AuthPostgresDB        string `env:"AUTH_POSTGRES_DB"`
 	RunMigrations         bool   `env:"RUN_MIGRATIONS" envDefault:"false"`
 
+	RedisAddr     string `env:"REDIS_ADDR"`
+	RedisPassword string `env:"REDIS_PASSWORD"`
+	RedisDB       int    `env:"REDIS_DB" envDefault:"0"`
+
 	TokenSecret         string        `env:"TOKEN_SECRET"`
 	AccessTokenTTLMin   time.Duration `env:"ACCESS_TOKEN_TTL_MIN"`
 	RefreshTokenTTLDays time.Duration `env:"REFRESH_TOKEN_TTL_DAYS"`

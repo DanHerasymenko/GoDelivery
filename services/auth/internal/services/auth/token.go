@@ -28,7 +28,9 @@ func (s *Service) CreateRefreshAuthToken(userID string) (*string, error) {
 		return nil, fmt.Errorf("failed to generate refresh token: %w", err)
 	}
 
-	//SAVE TOKEN TO REDIS
+	if err := s.SaveRefreshTokenToRedis(*refreshToken); err != nil {
+		return nil, fmt.Errorf("failed to save refresh token to redis: %w", err)
+	}
 
 	return refreshToken, nil
 
@@ -50,4 +52,8 @@ func generateToken(userID string, secret string, ttl time.Duration) (*string, er
 	}
 
 	return &signedToken, nil
+}
+
+func (s *Service) SaveRefreshTokenToRedis(token string) error {
+	return nil
 }
