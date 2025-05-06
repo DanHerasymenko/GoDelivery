@@ -2,4 +2,9 @@
 GET http://localhost:8081/api/healthz
 Accept: application/json
 
-##  swag init -g .\cmd\server\main.go -o .\cmd\server\docs\
+
+### Logout request
+DELETE http://localhost:8081/api/auth/logout
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzQ3ODQzMTQ2LCJpYXQiOjE3NDY1NDcxNDZ9.yV3hMssb8RYH3CKkmK4s62HDMRAxORYa9J4FTwX0DwM
+
+###  swag init -g .\cmd\server\main.go -o .\cmd\server\docs\

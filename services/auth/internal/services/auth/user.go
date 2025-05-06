@@ -11,7 +11,7 @@ import (
 )
 
 type User struct {
-	Id           int    `json:"id"`
+	Id           string `json:"id"`
 	Email        string `json:"email"`
 	PasswordHash string `json:"password_hash"`
 	//	Role         string    `json:"role" bson:"role"`
@@ -21,7 +21,7 @@ type User struct {
 func (s *Service) CreateUser(ctx context.Context, email, passwordHash string) (*User, error) {
 
 	now := time.Now().Unix()
-	var id int
+	var id string
 	var pgErr *pgconn.PgError
 
 	user := &User{

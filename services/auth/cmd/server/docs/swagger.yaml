@@ -1,4 +1,18 @@
 definitions:
+  auth.RefreshReqBody:
+    properties:
+      refreshToken:
+        type: string
+    required:
+    - refreshToken
+    type: object
+  auth.RefreshResp200Body:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
   auth.SignInReqBody:
     properties:
       email:
@@ -46,6 +60,51 @@ info:
   title: GoDelivery Auth Service
   version: "1.0"
 paths:
+  /api/auth/logout:
+    delete:
+      description: Logout
+      responses:
+        "200":
+          description: Logout success
+          schema:
+            type: string
+        "401":
+          description: access token not found
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Logout
+      tags:
+      - Auth
+  /api/auth/refresh:
+    post:
+      description: Refresh
+      parameters:
+      - description: Refresh request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/auth.RefreshReqBody'
+      responses:
+        "200":
+          description: Refresh success
+          schema:
+            $ref: '#/definitions/auth.RefreshResp200Body'
+        "401":
+          description: invalid credentials
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Refresh
+      tags:
+      - Auth
   /api/auth/signin:
     post:
       description: SignIn

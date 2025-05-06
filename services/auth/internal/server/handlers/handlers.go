@@ -45,4 +45,6 @@ func (h *Handlers) RegisterRoutes(router *gin.Engine) {
 	auth := api.Group("/auth")
 	auth.POST("/signup", h.Auth.SingUp)
 	auth.POST("/signin", h.Auth.SignIn)
+	auth.POST("/refresh", h.Auth.Refresh)
+	auth.DELETE("/logout", h.Auth.Logout)
 }

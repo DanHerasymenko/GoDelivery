@@ -2,14 +2,16 @@ package auth
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/DanHerasymenko/GoDelivery/shared/logger"
 	"github.com/golang-jwt/jwt/v5"
-	"strconv"
+	"github.com/redis/go-redis/v9"
+	"strings"
 	"time"
 )
 
-func (s *Service) CreateAccessAuthToken(ctx context.Context, userID int) (*string, error) {
+func (s *Service) CreateAccessAuthToken(ctx context.Context, userID string) (*string, error) {
 
 	accessToken, err := generateToken(userID, s.cfg.TokenSecret, s.cfg.AccessTokenTTLMin)
 	if err != nil {
@@ -20,14 +22,14 @@ func (s *Service) CreateAccessAuthToken(ctx context.Context, userID int) (*strin
 	return accessToken, nil
 }
 
-func (s *Service) CreateRefreshAuthToken(ctx context.Context, userID int) (*string, error) {
+func (s *Service) CreateRefreshAuthToken(ctx context.Context, userID string) (*string, error) {
 
 	refreshToken, err := generateToken(userID, s.cfg.TokenSecret, s.cfg.RefreshTokenTTLDays)
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate refresh token: %w", err)
 	}
 
-	if err := s.SaveRefreshTokenToRedis(ctx, s.cfg.RefreshTokenTTLDays, userID, *refreshToken); err != nil {
+	if err := s.saveNewRefreshTokenToRedis(ctx, s.cfg.RefreshTokenTTLDays, userID, *refreshToken); err != nil {
 		return nil, fmt.Errorf("failed to save refresh token to redis: %w", err)
 	}
 
@@ -36,11 +38,10 @@ func (s *Service) CreateRefreshAuthToken(ctx context.Context, userID int) (*stri
 
 }
 
-func generateToken(userID int, secret string, ttl time.Duration) (*string, error) {
+func generateToken(userID string, secret string, ttl time.Duration) (*string, error) {
 	now := time.Now()
-	userIdStr := strconv.Itoa(userID)
 	claims := jwt.RegisteredClaims{
-		Subject:   userIdStr,
+		Subject:   userID,
 		IssuedAt:  jwt.NewNumericDate(now),
 		ExpiresAt: jwt.NewNumericDate(now.Add(ttl)),
 	}
@@ -55,9 +56,28 @@ func generateToken(userID int, secret string, ttl time.Duration) (*string, error
 	return &signedToken, nil
 }
 
-func (s *Service) SaveRefreshTokenToRedis(ctx context.Context, ttl time.Duration, userID int, token string) error {
+func (s *Service) VerifyJWTToken(tokenStr string) (string, error) {
 
-	key := fmt.Sprintf("refresh:userID:%d", userID)
+	tokenStr = strings.TrimPrefix(tokenStr, "Bearer ")
+	tokenStr = strings.TrimSpace(tokenStr)
+
+	claims := jwt.RegisteredClaims{}
+
+	tkn, err := jwt.ParseWithClaims(tokenStr, &claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(s.cfg.TokenSecret), nil
+	})
+	if err != nil || !tkn.Valid {
+		return "", fmt.Errorf("invalid token: %w", err)
+	}
+
+	// get userID from token subject
+	return claims.Subject, nil
+
+}
+
+func (s *Service) saveNewRefreshTokenToRedis(ctx context.Context, ttl time.Duration, userID string, token string) error {
+
+	key := fmt.Sprintf("refresh:userID:%s", userID)
 	value := token
 
 	err := s.clnts.RedisClnt.Redis.Set(ctx, key, value, ttl).Err()
@@ -68,4 +88,26 @@ func (s *Service) SaveRefreshTokenToRedis(ctx context.Context, ttl time.Duration
 
 	logger.Info(ctx, "Refresh token saved to Redis successfully")
 	return nil
+}
+
+func (s *Service) IfRefreshTokenExistsInRedis(ctx context.Context, token, userID string) (bool, error) {
+	key := fmt.Sprintf("refresh:userID:%s", userID)
+
+	val, err := s.clnts.RedisClnt.Redis.Get(ctx, key).Result()
+	if err != nil {
+		if errors.Is(err, redis.Nil) {
+			logger.Info(ctx, "Refresh token not found in Redis")
+			return false, nil
+		}
+		logger.Error(ctx, fmt.Errorf("failed to check refresh token in redis: %w", err))
+		return false, err
+	}
+
+	return val == token, nil
+}
+
+func (s *Service) DeleteTokenFromRedis(ctx context.Context, userID string) error {
+
+	key := fmt.Sprintf("refresh:userID:%s", userID)
+	return s.clnts.RedisClnt.Redis.Del(ctx, key).Err()
 }
