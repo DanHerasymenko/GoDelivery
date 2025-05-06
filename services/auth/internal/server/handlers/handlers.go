@@ -44,7 +44,7 @@ func (h *Handlers) RegisterRoutes(router *gin.Engine) {
 	// Auth group
 	auth := api.Group("/auth")
 	auth.POST("/signup", h.Auth.SingUp)
-	auth.POST("/signin", h.Auth.SignIn)
-	auth.POST("/refresh", h.Auth.Refresh)
+	auth.POST("/signin", h.mdlwrs.Limiter.RateLimiterMiddleware(), h.Auth.SignIn)
+	auth.POST("/refresh", h.mdlwrs.Limiter.RateLimiterMiddleware(), h.Auth.Refresh)
 	auth.DELETE("/logout", h.Auth.Logout)
 }

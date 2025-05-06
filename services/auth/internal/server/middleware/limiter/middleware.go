@@ -50,7 +50,7 @@ func (m *Middleware) RateLimiterMiddleware() gin.HandlerFunc {
 		ctx.Header("X-RateLimit-Reset", fmt.Sprintf("%d", limCtx.Reset))
 
 		if limCtx.Reached {
-			ctx.AbortWithStatusJSON(429, gin.H{"error": "Too many requests"})
+			ctx.AbortWithStatusJSON(429, gin.H{"error": "Too many requests", "ip": ip})
 			return
 		}
 		ctx.Next()

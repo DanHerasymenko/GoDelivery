@@ -40,7 +40,7 @@ func main() {
 	srvr := server.NewServer(cfg)
 
 	// Register middlewares
-	mdlwrs := middleware.NewMiddlewares(cfg)
+	mdlwrs := middleware.NewMiddlewares(cfg, clnts)
 
 	// Create handlers
 	hdlrs := handlers.NewHandlers(cfg, srvc, mdlwrs)
