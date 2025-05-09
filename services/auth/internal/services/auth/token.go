@@ -39,6 +39,11 @@ func (s *Service) CreateRefreshAuthToken(ctx context.Context, userID string) (*s
 }
 
 func generateToken(userID string, secret string, ttl time.Duration) (*string, error) {
+
+	if ttl == 0 {
+		return nil, errors.New("token ttl must be greater than zero")
+	}
+
 	now := time.Now()
 	claims := jwt.RegisteredClaims{
 		Subject:   userID,
@@ -107,7 +112,7 @@ func (s *Service) IfRefreshTokenExistsInRedis(ctx context.Context, token, userID
 }
 
 func (s *Service) DeleteTokenFromRedis(ctx context.Context, userID string) error {
-
+	
 	key := fmt.Sprintf("refresh:userID:%s", userID)
 	return s.clnts.RedisClnt.Redis.Del(ctx, key).Err()
 }
