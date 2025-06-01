@@ -1,0 +1,57 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample server for GoDelivery Auth Service.",
+        "title": "GoDelivery Auth Service",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/healthz": {
+            "get": {
+                "description": "Healthz check",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Healthz"
+                ],
+                "summary": "Healthz check",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/healthz.HealthzRespBody"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "healthz.HealthzRespBody": {
+            "type": "object",
+            "required": [
+                "env",
+                "status"
+            ],
+            "properties": {
+                "env": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

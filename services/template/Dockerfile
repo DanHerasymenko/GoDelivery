@@ -1,5 +1,5 @@
 FROM golang:1.24.0-alpine as base
-WORKDIR /auth_service
+WORKDIR /service
 RUN apk update && apk add --no-cache git
 COPY services/auth/go.mod services/auth/go.sum ./
 RUN go mod download

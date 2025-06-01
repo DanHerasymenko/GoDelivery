@@ -4,12 +4,9 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"regexp"
 )
 
 var v = validator.New()
-
-var seasonRegex = regexp.MustCompile(`^(Winter|Spring|Summer|Autumn)[0-9]{4}$`)
 
 func ParseReqBody(ctx *gin.Context, reqBody interface{}) error {
 

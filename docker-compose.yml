@@ -47,8 +47,8 @@ services:
       - .env
     container_name: auth_service
     volumes:
-      - ./services/auth/cmd:/app/cmd
-      - ./services/auth/internal:/app/internal
-      - ./services/auth/migrations:/app/migrations
+      - ./services/auth/cmd:/auth_service/cmd
+      - ./services/auth/internal:/auth_service/internal
+      - ./services/auth/migrations:/auth_service/migrations
     ports:
       - "8081:8081"
