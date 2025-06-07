@@ -1,4 +1,4 @@
-package redis
+package redisClient
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 )
 
 type Client struct {
-	Redis *redis.Client
+	Redis RedisCommander
 }
 
 func NewRedisClient(ctx context.Context, cfg *config.Config) (*Client, error) {

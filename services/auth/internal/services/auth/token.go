@@ -30,7 +30,7 @@ func (s *Service) CreateRefreshAuthToken(ctx context.Context, userID string) (*s
 	}
 
 	if err := s.saveNewRefreshTokenToRedis(ctx, s.cfg.RefreshTokenTTLDays, userID, *refreshToken); err != nil {
-		return nil, fmt.Errorf("failed to save refresh token to redis: %w", err)
+		return nil, fmt.Errorf("failed to save refresh token to redisClient: %w", err)
 	}
 
 	logger.Info(ctx, "Refresh token generated and saved successfully")
@@ -87,7 +87,7 @@ func (s *Service) saveNewRefreshTokenToRedis(ctx context.Context, ttl time.Durat
 
 	err := s.clnts.RedisClnt.Redis.Set(ctx, key, value, ttl).Err()
 	if err != nil {
-		logger.Error(ctx, fmt.Errorf("failed to save refresh token to redis: %w", err))
+		logger.Error(ctx, fmt.Errorf("failed to save refresh token to redisClient: %w", err))
 		return err
 	}
 
@@ -104,7 +104,7 @@ func (s *Service) IfRefreshTokenExistsInRedis(ctx context.Context, token, userID
 			logger.Info(ctx, "Refresh token not found in Redis")
 			return false, nil
 		}
-		logger.Error(ctx, fmt.Errorf("failed to check refresh token in redis: %w", err))
+		logger.Error(ctx, fmt.Errorf("failed to check refresh token in redisClient: %w", err))
 		return false, err
 	}
 
@@ -112,7 +112,7 @@ func (s *Service) IfRefreshTokenExistsInRedis(ctx context.Context, token, userID
 }
 
 func (s *Service) DeleteTokenFromRedis(ctx context.Context, userID string) error {
-	
+
 	key := fmt.Sprintf("refresh:userID:%s", userID)
 	return s.clnts.RedisClnt.Redis.Del(ctx, key).Err()
 }

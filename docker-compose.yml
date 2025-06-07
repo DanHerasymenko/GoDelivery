@@ -31,7 +31,7 @@ services:
       - ./scripts/entrypoint.sh:/usr/local/bin/entrypoint.sh
     entrypoint: [ "sh", "/usr/local/bin/entrypoint.sh" ]
     healthcheck:
-      test: [ "CMD", "redis-cli", "-a", "$REDIS_PASSWORD", "ping" ]
+      test: [ "CMD", "redisClient-cli", "-a", "$REDIS_PASSWORD", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 3

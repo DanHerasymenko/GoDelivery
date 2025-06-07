@@ -14,7 +14,7 @@ type Client struct {
 
 func NewRedisClient(ctx context.Context, cfg *config.Config) (*Client, error) {
 
-	redisURL := fmt.Sprintf("redis://:%s@%s/%d", cfg.RedisPassword, cfg.RedisAddr, cfg.RedisDB)
+	redisURL := fmt.Sprintf("redisClient://:%s@%s/%d", cfg.RedisPassword, cfg.RedisAddr, cfg.RedisDB)
 
 	fmt.Println(redisURL)
 

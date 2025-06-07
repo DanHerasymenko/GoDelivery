@@ -17,7 +17,7 @@ type Client struct {
 
 func NewPostgresClient(ctx context.Context, cfg *config.Config) (*Client, error) {
 	dsn := fmt.Sprintf(
-		"postgres://%s:%s@%s:%d/%s?sslmode=disable",
+		"postgresClient://%s:%s@%s:%d/%s?sslmode=disable",
 		cfg.AuthPostgresUser,
 		cfg.AuthPostgresPassword,
 		cfg.PostgresContainerHost,

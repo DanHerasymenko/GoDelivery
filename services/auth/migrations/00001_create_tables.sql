@@ -10,4 +10,4 @@ CREATE TABLE IF NOT EXISTS users (
 DROP TABLE IF EXISTS users;
 
 
---- goose -dir ./migrations postgres "postgres://user:password@localhost:port/dbname?sslmode=disable" up
+--- goose -dir ./migrations postgresClient "postgresClient://user:password@localhost:port/dbname?sslmode=disable" up

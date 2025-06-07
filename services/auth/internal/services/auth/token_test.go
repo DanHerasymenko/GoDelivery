@@ -2,9 +2,8 @@ package auth
 
 import (
 	"context"
-	"fmt"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/clients"
-	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/config"
+	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/clients/redisClient"
 	"github.com/redis/go-redis/v9"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -12,20 +11,18 @@ import (
 	"time"
 )
 
-type RedisCommander interface {
-	Del(ctx context.Context, keys ...string) *redis.IntCmd
-}
-
-type TestService struct {
-	clnts struct {
-		RedisClnt struct {
-			Redis RedisCommander
-		}
-	}
-}
-
 type MockRedis struct {
 	mock.Mock
+}
+
+func (m *MockRedis) Set(ctx context.Context, key string, value interface{}, expiration time.Duration) *redis.StatusCmd {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (m *MockRedis) Get(ctx context.Context, key string) *redis.StringCmd {
+	//TODO implement me
+	panic("implement me")
 }
 
 func (m *MockRedis) Del(ctx context.Context, keys ...string) *redis.IntCmd {
@@ -98,35 +95,23 @@ func Test_generateToken(t *testing.T) {
 	}
 }
 
-func TestService_DeleteTokenFromRedis(t *testing.T) {
-
+func Test_DeleteTokenFromRedis(t *testing.T) {
 	ctx := context.Background()
-
-	type args struct {
-		ctx    context.Context
-		userID string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		wantErr assert.ErrorAssertionFunc
-	}{
-		// TODO: Add test cases.
-	}
+	userID := "user123"
+	expectedKey := "auth:" + userID
 
 	mockRedis := new(MockRedis)
 	mockRedis.On("Del", ctx, []string{expectedKey}).Return(nil)
 
-	service := &TestService{}
-	service.clnts.RedisClnt.Redis = mockRedis
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			s := &Service{
-				cfg:   tt.fields.cfg,
-				clnts: tt.fields.clnts,
-			}
-			tt.wantErr(t, s.DeleteTokenFromRedis(tt.args.ctx, tt.args.userID), fmt.Sprintf("DeleteTokenFromRedis(%v, %v)", tt.args.ctx, tt.args.userID))
-		})
+	service := &Service{
+		clnts: &clients.Clients{
+			RedisClnt: &redisClient.Client{
+				Redis: mockRedis, // mock реалізує RedisCommander
+			},
+		},
 	}
+
+	err := service.DeleteTokenFromRedis(ctx, userID)
+	assert.NoError(t, err)
+	mockRedis.AssertCalled(t, "Del", ctx, []string{expectedKey})
 }

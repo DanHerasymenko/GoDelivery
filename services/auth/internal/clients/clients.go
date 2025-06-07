@@ -2,24 +2,24 @@ package clients
 
 import (
 	"context"
-	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/clients/postgres"
-	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/clients/redis"
+	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/clients/postgresClient"
+	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/clients/redisClient"
 	"github.com/DanHerasymenko/GoDelivery/services/auth-service/internal/config"
 )
 
 type Clients struct {
-	PostgresClnt *postgres.Client
-	RedisClnt    *redis.Client
+	PostgresClnt *postgresClient.Client
+	RedisClnt    *redisClient.Client
 }
 
 func NewClients(ctx context.Context, cfg *config.Config) (*Clients, error) {
 
-	postgresClient, err := postgres.NewPostgresClient(ctx, cfg)
+	postgresClient, err := postgresClient.NewPostgresClient(ctx, cfg)
 	if err != nil {
 		return nil, err
 	}
 
-	redisClint, err := redis.NewRedisClient(ctx, cfg)
+	redisClint, err := redisClient.NewRedisClient(ctx, cfg)
 	if err != nil {
 		return nil, err
 	}
